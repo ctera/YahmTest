@@ -14,7 +14,7 @@ pipeline {
         stage("test") {
             steps {
                 echo 'Test phase....'
-                node {
+                script {
                     def comment = pullRequest.comment('This PR is highly illogical..')
                 }
             }
