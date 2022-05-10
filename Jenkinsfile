@@ -16,6 +16,7 @@ pipeline {
         stage("build") {
             steps {
                 echo 'Build phase....'
+                sh "ls -l"
 
                 script { pr_number = env.GIT_BRANCH.split('-')[1] }
                 commentOnGithubPR("YahmTest", "${pr_number}", "TEST COMMENT")
