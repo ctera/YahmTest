@@ -16,6 +16,7 @@ pipeline {
         stage("build") {
             steps {
                 echo 'Build phase....'
+                echo "yahmyahm  ${params.BRANCH_NAME}"
                 sh "github-comment post -token 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 -org ctera -repo YahmTest -pr 3 -template test11114201"
                 sh "ls -l"
                 sh "pwd"
