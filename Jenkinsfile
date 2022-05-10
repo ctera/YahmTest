@@ -16,7 +16,10 @@ pipeline {
         stage("build") {
             steps {
                 echo 'Build phase....'
-                sh "github-comment post -token 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 -org ctera -repo YahmTest -pr 3 -template test1111420"
+                withCredentials([string(credentialsId: "Github-API-Token", variable: "TOKEN")]) {
+                    echo "yahmyahm ${params.BRANCH_NAME}"
+                    sh "github-comment post -token ${TOKEN} -org ctera -repo YahmTest -pr 3 -template test1111420"
+                }
 
                 
             }
