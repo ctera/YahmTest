@@ -17,6 +17,7 @@ pipeline {
             steps {
                 echo 'Build phase....'
                 script {
+                    echo "yahm ${env.GIT_BRANCH}"
                     sh 'env > env.txt'
                     readFile('env.txt').split("\r?\n").each {
                         println it
