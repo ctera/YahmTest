@@ -18,7 +18,8 @@ pipeline {
                 echo 'Build phase....'
 
                 withCredentials([string(credentialsId: "Github-API-Token", variable: "TOKEN")]) {
-                    sh "github-comment post -token ${TOKEN} -org ctera -repo YahmTest -pr ${env.GIT_BRANCH} -template test1111420"
+                    pr_number = env.GIT_BRANCH.split('-')[1]
+                    sh "github-comment post -token ${TOKEN} -org ctera -repo YahmTest -pr ${pr_number} -template test1111420"
                 }
 
                 
