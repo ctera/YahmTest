@@ -18,7 +18,7 @@ pipeline {
                 echo 'Build phase....'
 
                 script { pr_number = env.GIT_BRANCH.split('-')[1] }
-                commentOnGithubPR(repo: "YahmTest", pr_number: "${pr_number}", body: "TEST COMMENT")
+                commentOnGithubPR("YahmTest", "${pr_number}", "TEST COMMENT")
 
                 // withCredentials([string(credentialsId: "Github-API-Token", variable: "TOKEN")]) {
                 //     script {
