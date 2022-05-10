@@ -1,11 +1,24 @@
+@Library('devops-library') l1
+@Library('vSphere-functions') l2
+
+def dockerhost = getDockerhost()
+echo "dockerhost: ${dockerhost}"
+
+
 pipeline {
-    agent any
+    agent {
+        node { 
+            label "microservices-agent-${dockerhost}"
+        }
+    }
     
     stages {
-        
         stage("build") {
             steps {
                 echo 'Build phase....'
+                sh "github-comment post -token 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 -org ctera -repo YahmTest -pr 3 -template test11114201"
+                sh "ls -l"
+                sh "pwd"
 
                 
             }
@@ -14,13 +27,12 @@ pipeline {
         stage("test") {
             steps {
                 echo 'Test phase....'
-                def comment = pullRequest.comment('This PR is highly illogical..')
             }
         }
 
         stage("deploy") {
             when {
-                branch "main"
+                branch "fix-*"
             }
             steps {
                 echo 'Deploy phase....'
