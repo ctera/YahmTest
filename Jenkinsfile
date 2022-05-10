@@ -8,7 +8,7 @@ echo "dockerhost: ${dockerhost}"
 pipeline {
     agent {
         node { 
-            label "microservices-agent-${dockerhost}"
+            label "microservices-agent-main"
         }
     }
     
@@ -16,10 +16,7 @@ pipeline {
         stage("build") {
             steps {
                 echo 'Build phase....'
-                echo "yahmyahm  ${params.BRANCH_NAME}"
-                sh "github-comment post -token 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 -org ctera -repo YahmTest -pr 3 -template test11114201"
-                sh "ls -l"
-                sh "pwd"
+                sh "github-comment post -token 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 -org ctera -repo YahmTest -pr 3 -template test1111420"
 
                 
             }
