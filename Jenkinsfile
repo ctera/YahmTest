@@ -16,6 +16,13 @@ pipeline {
         stage("build") {
             steps {
                 echo 'Build phase....'
+                script {
+                    sh 'env > env.txt'
+                    readFile('env.txt').split("\r?\n").each {
+                        println it
+                    }
+                    echo "yahm111  ${env.getEnvironment()}"
+                }
                 withCredentials([string(credentialsId: "Github-API-Token", variable: "TOKEN")]) {
                     echo "yahmyahm ${params.BRANCH_NAME}"
                     sh "github-comment post -token ${TOKEN} -org ctera -repo YahmTest -pr 3 -template test1111420"
