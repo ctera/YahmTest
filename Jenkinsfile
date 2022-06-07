@@ -16,29 +16,50 @@ pipeline {
         stage("build") {
             steps {
                 echo 'Build phase....'
-                withCredentials([string(credentialsId: "Github-API-Token", variable: "TOKEN")]) {
-                    echo "yahmyahm ${env.BRANCH_NAME}"
-                    sh "github-comment post -token ${TOKEN} -org ctera -repo YahmTest -pr 3 -template test1111420"
-                }
-
+                                
+                sh "ls -l"
+                sh "pwd"
+                // sh "skipper make clean rpm"
+                sh "rpmbuild -bb -vv --define='_srcdir $(PWD)' --define='_topdir $(RPM_BUILD_ROOT)' deploy/ctera-messaging-ansible.spec"
+                sh "ls -l"
                 
             }
         }
-
-        stage("test") {
-            steps {
-                echo 'Test phase....'
-            }
-        }
-
         stage("deploy") {
             when {
-                branch "fix-*"
+                branch "PR*"
             }
             steps {
-                echo 'Deploy phase....'
+                echo 'Sending artifacts'
+            }
+        }
+        stage("deploy") {
+            when {
+                branch "main"
+            }
+            steps {
+                echo 'sending artifacts and coping to \\vgwversions-gen\\versions'
             }
         }
 
-    }   
+    }
+    post {
+        always {
+            deleteDir()
+
+            script { pr_number = env.GIT_BRANCH.split('-')[1] }
+        }
+        success {
+            commentOnGithubPR("YahmTest", "${pr_number}", "Build was successful! See at ${env.BUILD_URL}")
+        }
+        failure {
+            commentOnGithubPR("YahmTest", "${pr_number}", "Build failed! See at ${env.BUILD_URL}")
+        }
+        aborted {
+            commentOnGithubPR("YahmTest", "${pr_number}", "Build aborted! See at ${env.BUILD_URL}")
+        }
+        unstable {
+            commentOnGithubPR("YahmTest", "${pr_number}", "Build unstable! See at ${env.BUILD_URL}")
+        }
+    }
 }
