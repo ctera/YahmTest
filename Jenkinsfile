@@ -19,8 +19,7 @@ pipeline {
                                 
                 sh "ls -l"
                 sh "pwd"
-                // sh "skipper make clean rpm"
-                sh "rpmbuild -bb -vv --define='_srcdir $(PWD)' --define='_topdir $(RPM_BUILD_ROOT)' deploy/ctera-messaging-ansible.spec"
+                sh "rpmbuild -bb -vv --define='_srcdir \$(PWD)' --define='_topdir \$(RPM_BUILD_ROOT)' deploy/ctera-messaging-ansible.spec"
                 sh "ls -l"
                 
             }
@@ -50,15 +49,27 @@ pipeline {
             script { pr_number = env.GIT_BRANCH.split('-')[1] }
         }
         success {
+            when {
+                branch "PR*"
+            }
             commentOnGithubPR("YahmTest", "${pr_number}", "Build was successful! See at ${env.BUILD_URL}")
         }
         failure {
+            when {
+                branch "PR*"
+            }
             commentOnGithubPR("YahmTest", "${pr_number}", "Build failed! See at ${env.BUILD_URL}")
         }
         aborted {
+            when {
+                branch "PR*"
+            }
             commentOnGithubPR("YahmTest", "${pr_number}", "Build aborted! See at ${env.BUILD_URL}")
         }
         unstable {
+            when {
+                branch "PR*"
+            }
             commentOnGithubPR("YahmTest", "${pr_number}", "Build unstable! See at ${env.BUILD_URL}")
         }
     }
