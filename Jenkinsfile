@@ -18,7 +18,11 @@ pipeline {
                 printTitle "setup"
 
                 echo "asdasd ${env.GIT_BRANCH}"
-                script { pr_number = env.GIT_BRANCH.split('-')[1] }
+                script { 
+                    def pr_number = env.GIT_BRANCH.split('-')[1]
+                    echo "pr_numberasdasd: ${pr_number}"
+                }
+                echo "asd"
                 echo "pr_number: ${pr_number}"
                 
             }
