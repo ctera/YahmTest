@@ -19,6 +19,7 @@ pipeline {
 
                 echo "asdasd ${env.GIT_BRANCH}"
                 script { pr_number = env.GIT_BRANCH.split('-')[1] }
+                echo "pr_number: ${pr_number}"
                 
             }
         }
