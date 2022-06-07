@@ -32,7 +32,7 @@ pipeline {
                 echo 'Sending artifacts'
             }
         }
-        stage("deploy") {
+        stage("deplo11y") {
             when {
                 branch "main"
             }
