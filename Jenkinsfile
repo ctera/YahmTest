@@ -16,7 +16,8 @@ pipeline {
         stage("setup") {
             steps {
                 printTitle "setup"
-                                
+
+                echo "asdasd ${env.GIT_BRANCH}"
                 script { pr_number = env.GIT_BRANCH.split('-')[1] }
                 
             }
@@ -38,6 +39,7 @@ pipeline {
             }
             steps {
                 printTitle "deploy - PR"
+
                 echo 'Sending artifacts'
             }
         }
