@@ -17,14 +17,16 @@ pipeline {
             steps {
                 printTitle "setup"
 
-                echo "asdasd ${env.GIT_BRANCH}"
-                script { 
-                    def pr_number = env.GIT_BRANCH.split('-')[1]
-                    echo "pr_numberasdasd: ${pr_number}"
+                script {
+                    try {
+                        def pr_number = env.GIT_BRANCH.split('-')[1]
+                    } catch (e) {
+                        echo "error: ${e}"
+                        pr_number = "main"
+                    }
+                    echo "branch: ${env.GIT_BRANCH}"
+                    echo "pr_number: ${pr_number}"
                 }
-                echo "asd"
-                echo "pr_number: ${pr_number}"
-                
             }
         }
         stage("build") {
