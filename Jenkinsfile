@@ -11,17 +11,13 @@ pipeline {
             label "microservices-agent-main"
         }
     }
-    script { pr_number = env.GIT_BRANCH.split('-')[1] }
     
     stages {
         stage("setup") {
             steps {
                 printTitle "setup"
                                 
-                sh "ls -l"
-                sh "pwd"
-                sh "rpmbuild -bb -vv --define='_srcdir \$(PWD)' --define='_topdir \$(RPM_BUILD_ROOT)' deploy/ctera-messaging-ansible.spec"
-                sh "ls -l"
+                script { pr_number = env.GIT_BRANCH.split('-')[1] }
                 
             }
         }
@@ -51,7 +47,7 @@ pipeline {
             }
             steps {
                 printTitle "deploy - main"
-                
+
                 echo 'sending artifacts and coping to \\vgwversions-gen\\versions'
             }
         }
